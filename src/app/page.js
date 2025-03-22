@@ -17,9 +17,8 @@ export default function Home() {
         <Benefits />
         <BrandStory />
         <Testimonials />
-        <Newsletter />
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 }

@@ -3,11 +3,12 @@ import Image from "next/image";
 
 export default function Testimonials() {
   return (
-    <section className={styles.TestimonialsSection}>
+    <section className={`${styles.TestimonialsSection} container mx-auto px-4`}>
       <div className={styles.TestimonialsContainer}>
-        <h2 className={styles.TestimonialsTitle}>
-          What Our Customers Say
-        </h2>
+        <h2 className={styles.TestimonialsTitle}>TESTIMONIALS</h2>
+        <p className={styles.TestimonialsTagline}>
+          What Our Customers Say About Us
+        </p>
         <div className={styles.TestimonialsGrid}>
           {/* Testimonial 1 */}
           <div className={styles.TestimonialCard}>

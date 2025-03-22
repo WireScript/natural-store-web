@@ -14,7 +14,10 @@ export default function BrandStory() {
           />
         </div>
         <div className={styles.BrandStoryContent}>
-          <h2 className={styles.BrandStoryTitle}>Our Story</h2>
+          <h2 className={styles.BrandStoryTitle}>OUR STORY</h2>
+          <p className={styles.BrandStoryTagline}>
+            Rooted in Nature, Committed to Purity – Our Journey to a Healthier World.
+          </p>
           <p className={styles.BrandStoryText}>
             Founded in 2025, NaturalStore emerged from a simple belief: everyone deserves access to high-quality, organic products that promote health and sustainability. Our journey began with a small selection of carefully curated items and has grown into a comprehensive collection of premium organic products.
           </p>
