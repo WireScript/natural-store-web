@@ -2,22 +2,20 @@ import styles from "./Benefits.module.css";
 
 export default function Benefits() {
   return (
-    <section className={styles.BenefitsSection}>
-      <div className={styles.BenefitsContainer}>
-        <h2 className={styles.BenefitsTitle}>WHY CHOOSE US?</h2>
-        <p className={styles.BenefitsTagline}>
-          Bringing you the finest, natural, and organic products for a healthier and sustainable lifestyle.
-        </p>
-        <div className={styles.BenefitsGrid}>
-          {benefitsData.map((benefit, index) => (
-            <div className={styles.BenefitCard} key={index}>
-              <div className={styles.BenefitIcon}>{benefit.icon}</div>
-              <h3 className={styles.BenefitTitle}>{benefit.title}</h3>
-              <p className={styles.BenefitShortDescription}>{benefit.shortDescription}</p>
-              <p className={styles.BenefitDescription}>{benefit.description}</p>
-            </div>
-          ))}
-        </div>
+    <section className={`${styles.BenefitsSection} container mx-auto`}>
+      <h2 className={styles.BenefitsTitle}>WHY CHOOSE US?</h2>
+      <p className={styles.BenefitsTagline}>
+        Bringing you the finest, natural, and organic products for a healthier and sustainable lifestyle.
+      </p>
+      <div className={styles.BenefitsGrid}>
+        {benefitsData.map((benefit, index) => (
+          <div className={styles.BenefitCard} key={index}>
+            <div className={styles.BenefitIcon}>{benefit.icon}</div>
+            <h3 className={styles.BenefitTitle}>{benefit.title}</h3>
+            <p className={styles.BenefitShortDescription}>{benefit.shortDescription}</p>
+            <p className={styles.BenefitDescription}>{benefit.description}</p>
+          </div>
+        ))}
       </div>
     </section>
   );
