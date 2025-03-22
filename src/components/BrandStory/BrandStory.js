@@ -7,7 +7,7 @@ export default function BrandStory() {
       <div className={styles.BrandStoryGrid}>
         <div className={styles.BrandStoryImageContainer}>
           <Image
-            src="/images/nature-bg.jpg"
+            src="/images/home/showcase.jpg"
             alt="Our brand story"
             fill
             className={styles.BrandStoryImage}

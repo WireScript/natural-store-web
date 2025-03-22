@@ -59,7 +59,9 @@ export default function Hero() {
       
         {/* Products Section */}
         <div className={styles.servicesSection}>
-          <h2 className={styles.servicesTitle}>EXPLORE OUR<br />COLLECTIONS</h2>
+          <div className={styles.serviceTitleContainer}>
+            <h2 className={styles.servicesTitle}>EXPLORE OUR<br />COLLECTIONS</h2>
+          </div>
           <div className={styles.servicesList}>
             <div className={styles.serviceItem}>
               <h3 className={styles.serviceTitle}>SKIN CARE<br/>ESSENTIALS</h3>
