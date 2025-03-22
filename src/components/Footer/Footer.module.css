@@ -1,7 +1,7 @@
 /* Footer.module.css */
 .Footer {
-  background-color: #1F2937;
-  color: #F3F4F6;
+  background-color: #1B4332; /* Deep Forest Green */
+  color: #E9F5DB; /* Soft Greenish White */
   padding: 4rem 1rem 2rem;
 }
 
@@ -28,12 +28,12 @@
 .FooterCompanyName {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #4CAF50;
+  color: #ffffff; /* Fresh Green */
   margin-bottom: 1rem;
 }
 
 .FooterCompanyDescription {
-  color: #9CA3AF;
+  color: #B7E4C7; /* Light Greenish Gray */
   line-height: 1.6;
 }
 
@@ -52,18 +52,18 @@
 .FooterLinkGroupTitle {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #F3F4F6;
+  color: #ffffff;
   margin-bottom: 0.5rem;
 }
 
 .FooterLink {
-  color: #9CA3AF;
+  color: #B7E4C7; /* Light Greenish Gray */
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 .FooterLink:hover {
-  color: #4CAF50;
+  color: #95D5B2; /* Fresh Green */
 }
 
 .FooterNewsletter {
@@ -74,12 +74,12 @@
 .FooterNewsletterTitle {
   font-size: 1.1rem;
   font-weight: 600;
-  color: #F3F4F6;
+  color: #ffffff;
   margin-bottom: 1rem;
 }
 
 .FooterNewsletterDescription {
-  color: #9CA3AF;
+  color: #B7E4C7;
   margin-bottom: 1rem;
 }
 
@@ -93,21 +93,21 @@
   flex: 1;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
-  border: 1px solid #374151;
-  background-color: #374151;
-  color: #F3F4F6;
+  border: 1px solid #2D6A4F; /* Muted Dark Green */
+  background-color: #2D6A4F; /* Darker Green */
+  color: #ffffff;
   min-width: 180px;
 }
 
 .FooterNewsletterInput:focus {
   outline: none;
-  border-color: #4CAF50;
+  border-color: #95D5B2; /* Fresh Green */
 }
 
 .FooterNewsletterButton {
   padding: 0.5rem 1rem;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #95D5B2;
+  color: #1B4332; /* Dark Green Text */
   border-radius: 0.375rem;
   font-weight: 500;
   transition: background-color 0.3s ease;
@@ -115,13 +115,13 @@
 }
 
 .FooterNewsletterButton:hover {
-  background-color: #43A047;
+  background-color: #74C69D; /* Slightly Darker Green */
 }
 
 /* Footer bottom section */
 .FooterBottom {
   padding-top: 2rem;
-  border-top: 1px solid #374151;
+  border-top: 1px solid #2D6A4F;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -136,12 +136,12 @@
 }
 
 .FooterSocialLink {
-  color: #9CA3AF;
+  color: #ffffff;
   transition: color 0.3s ease;
 }
 
 .FooterSocialLink:hover {
-  color: #4CAF50;
+  color: #95D5B2;
 }
 
 .FooterSocialIcon {
@@ -150,7 +150,7 @@
 }
 
 .FooterCopyright {
-  color: #9CA3AF;
+  color: #ffffff;
   font-size: 0.875rem;
 }
 

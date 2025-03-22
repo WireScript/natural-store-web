@@ -7,7 +7,7 @@ const Footer = () => {
       <div className={styles.FooterContainer}>
         <div className={styles.FooterGrid}>
           <div className={styles.FooterCompany}>
-            <h2 className={styles.FooterCompanyName}>NaturalStore</h2>
+            <h2 className={styles.FooterCompanyName}>Nature Essentials</h2>
             <p className={styles.FooterCompanyDescription}>
               Your one-stop shop for all natural and organic products. We believe in
               sustainable living and providing the best quality products for our
