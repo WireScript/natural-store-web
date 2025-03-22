@@ -1,0 +1,63 @@
+.BrandStorySection {
+  padding: 5rem 0;
+  background-color: white;
+}
+  
+.BrandStoryContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+  
+.BrandStoryGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+  
+.BrandStoryImageContainer {
+  position: relative;
+  height: 400px;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+  
+.BrandStoryImage {
+  object-fit: cover;
+}
+  
+.BrandStoryContent {
+  padding: 1rem 0;
+}
+  
+.BrandStoryTitle {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #2E7D32;
+}
+  
+.BrandStoryText {
+  color: #4B5563;
+  margin-bottom: 1.5rem;
+}
+  
+.BrandStoryButton {
+  background-color: #4CAF50;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 2rem;
+  border-radius: 9999px;
+  transition: background-color 0.3s ease;
+}
+  
+.BrandStoryButton:hover {
+  background-color: #2E7D32;
+}
+  
+@media (min-width: 768px) {
+  .BrandStoryGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+} 

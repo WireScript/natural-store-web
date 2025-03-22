@@ -1,0 +1,72 @@
+.FeaturedProductsSection {
+  padding: 5rem 0;
+  background-color: white;
+}
+
+.FeaturedProductsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.FeaturedProductsTitle {
+  font-size: 1.875rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #2E7D32;
+}
+
+.FeaturedProductsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+.FeaturedProductCard {
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transform: scale(1);
+  transition: transform 0.3s ease;
+}
+
+.FeaturedProductCard:hover {
+  transform: scale(1.05);
+}
+
+.FeaturedProductImageContainer {
+  position: relative;
+  height: 16rem;
+}
+
+.FeaturedProductImage {
+  object-fit: cover;
+}
+
+.FeaturedProductContent {
+  padding: 1.5rem;
+}
+
+.FeaturedProductTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.FeaturedProductDescription {
+  color: #4B5563;
+  margin-bottom: 1rem;
+}
+
+.FeaturedProductPrice {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  .FeaturedProductsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+} 

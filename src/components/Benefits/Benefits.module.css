@@ -1,0 +1,62 @@
+.BenefitsSection {
+  padding: 5rem 0;
+  background-color: #F5F5F5;
+}
+  
+.BenefitsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+  
+.BenefitsTitle {
+  font-size: 1.875rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: #2E7D32;
+}
+  
+.BenefitsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+  
+.BenefitCard {
+  text-align: center;
+  padding: 1.5rem;
+}
+  
+.BenefitIcon {
+  width: 4rem;
+  height: 4rem;
+  background-color: #4CAF50;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+  
+.BenefitIcon svg {
+  width: 2rem;
+  height: 2rem;
+  color: white;
+}
+  
+.BenefitTitle {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+  
+.BenefitDescription {
+  color: #4B5563;
+}
+  
+@media (min-width: 768px) {
+  .BenefitsGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+} 
