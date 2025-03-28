@@ -238,9 +238,11 @@ export default function CartPage() {
                 </div>
               )}
               
-              <button className="checkout-btn">
-                Proceed to Checkout
-              </button>
+              <Link href="/checkout">
+                <button className="checkout-btn">
+                  Proceed to Checkout
+                </button>
+              </Link>
               
               <Link href="/shop">
                 <button className="continue-shopping-link">

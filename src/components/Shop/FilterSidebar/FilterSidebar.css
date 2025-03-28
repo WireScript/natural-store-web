@@ -59,6 +59,27 @@
   accent-color: #4CAF50;
   width: 16px;
   height: 16px;
+  position: relative;
+  cursor: pointer;
+  appearance: none;
+  border: 1px solid #4CAF50;
+  border-radius: 3px;
+  background-color: white;
+}
+
+.filter-option input[type="checkbox"]:checked {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.filter-option input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 0.7rem;
 }
 
 .price-range {
@@ -99,10 +120,51 @@
   transform: translateX(2px);
 }
 
-.rating-option input[type="radio"] {
+.rating-option input[type="radio"],
+.availability-option input[type="radio"] {
   accent-color: #4CAF50;
   width: 16px;
   height: 16px;
+  appearance: none;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rating-option input[type="radio"]:checked,
+.availability-option input[type="radio"]:checked {
+  border-color: #4CAF50;
+}
+
+.rating-option input[type="radio"]:checked::after,
+.availability-option input[type="radio"]:checked::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-color: #4CAF50;
+  border-radius: 50%;
+  animation: pulse 0.4s ease-out;
+}
+
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
 }
 
 .stars {
@@ -133,12 +195,6 @@
 
 .availability-option:hover {
   transform: translateX(2px);
-}
-
-.availability-option input[type="radio"] {
-  accent-color: #4CAF50;
-  width: 16px;
-  height: 16px;
 }
 
 .apply-filters {
