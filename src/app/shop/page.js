@@ -150,11 +150,14 @@ const productData = [
 
 const ShopPage = () => {
   return (
-    <div>
+    <div className="shop-gradient-bg">
+      <div className="page-content">
+        <h1 className="shop-title">ORGANIC COLLECTION</h1>
         <div id="products-section">
-            <ProductGrid productData={productData} />
+          <ProductGrid productData={productData} />
         </div>
         {/* <FeaturedSections products={productData} /> */}
+      </div>
     </div>
   );
 };

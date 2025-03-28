@@ -1,1 +1,51 @@
+/* Shop Page Styling */
 
+/* Apply the same gradient background and text colors from Hero component */
+#products-section {
+  padding: 2rem 0;
+  color: #2e3a1f; /* Dark olive green color for text from Hero */
+}
+
+/* Add subtle background gradient */
+.shop-gradient-bg {
+  min-height: 100vh;
+}
+
+/* Add animation for page transitions */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Page content animation */
+.page-content {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Add gradient animation for headers */
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Shop page title styling */
+.shop-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin: 2rem 0;
+  background: linear-gradient(45deg, #2E7D32, #388E3C, #4CAF50, #2E7D32);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientFlow 8s ease infinite;
+  letter-spacing: -0.02em;
+}
