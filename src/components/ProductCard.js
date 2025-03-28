@@ -15,7 +15,7 @@ const ProductCard = ({ product }) => {
       <div className="product-badges">
         {product.isNew && <span className="badge new">New Arrival</span>}
         {product.isBestSeller && <span className="badge best-seller">Best Seller</span>}
-        {product.discount && <span className="badge discount">{product.discount}% OFF</span>}
+        {product.discount > 0 && <span className="badge discount">{product.discount}% OFF</span>}
         {product.isOrganic && <span className="badge organic">Organic</span>}
       </div>
 
@@ -41,7 +41,7 @@ const ProductCard = ({ product }) => {
         )}
         
         <div className="product-price">
-          {product.discount ? (
+          {product.discount > 0 ? (
             <>
               <span className="price-original">${product.price}</span>
               <span className="price-discounted">
@@ -55,7 +55,7 @@ const ProductCard = ({ product }) => {
 
         <div className="product-actions">
           <button className="btn-add-cart">
-            <span className="icon">🛒</span>
+            {/* <span className="icon">🛒</span> */}
             Add to Cart
           </button>
           <button className="btn-view-details">
