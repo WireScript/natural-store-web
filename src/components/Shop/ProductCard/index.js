@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useCart } from '@/context/CartContext';
+import Link from 'next/link';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
@@ -24,6 +25,11 @@ const ProductCard = ({ product }) => {
     }, 1000);
   };
 
+  // Function to validate image path
+  const validateImagePath = (path) => {
+    return path && path.startsWith('/');
+  };
+
   return (
     <div 
       className="product-card"
@@ -39,13 +45,13 @@ const ProductCard = ({ product }) => {
 
       <div className="product-image-container">
         <img 
-          src={product.image} 
+          src={validateImagePath(product.image) ? product.image : '/images/products/product-1.jpg'} 
           alt={product.title}
           className={`product-image ${isHovered ? 'hovered' : ''}`}
         />
         {product.secondaryImage && (
           <img 
-            src={product.secondaryImage} 
+            src={validateImagePath(product.secondaryImage) ? product.secondaryImage : '/images/products/product-2.jpg'} 
             alt={`${product.title} alternate view`}
             className={`product-image secondary ${isHovered ? 'show' : ''}`}
           />
@@ -86,9 +92,11 @@ const ProductCard = ({ product }) => {
               'Add to Cart'
             )}
           </button>
-          <button className="btn-view-details">
-            View Details
-          </button>
+          <Link href={`/product/${product.id}`}>
+            <button className="btn-view-details">
+              View Details
+            </button>
+          </Link>
         </div>
       </div>
     </div>
