@@ -83,7 +83,7 @@ export default function ProductDetail() {
   ].filter(Boolean);
 
   const finalPrice = product.discount > 0 
-    ? (product.price * (1 - product.discount / 100)).toFixed(2)
+    ? Math.round(product.price * (1 - product.discount / 100))
     : product.price;
 
   // Function to validate image URL exists
@@ -139,12 +139,12 @@ export default function ProductDetail() {
           <div className="product-detail-price">
             {product.discount > 0 ? (
               <>
-                <span className="price-original">${product.price}</span>
-                <span className="price-discounted">${finalPrice}</span>
-                <span className="price-saving">Save ${(product.price - finalPrice).toFixed(2)}</span>
+                <span className="price-original">₹{product.price}</span>
+                <span className="price-discounted">₹{finalPrice}</span>
+                <span className="price-saving">Save ₹{product.price - finalPrice}</span>
               </>
             ) : (
-              <span className="price">${product.price}</span>
+              <span className="price">₹{product.price}</span>
             )}
           </div>
           
@@ -229,7 +229,7 @@ export default function ProductDetail() {
               <svg className="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              <span>Free shipping on orders over $50</span>
+              <span>Free shipping on orders over ₹1500</span>
             </div>
             <div className="feature">
               <svg className="feature-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -388,13 +388,13 @@ export default function ProductDetail() {
                     <div className="related-product-price">
                       {relatedProduct.discount > 0 ? (
                         <>
-                          <span className="price-original">${relatedProduct.price}</span>
+                          <span className="price-original">₹{relatedProduct.price}</span>
                           <span className="price-discounted">
-                            ${(relatedProduct.price * (1 - relatedProduct.discount / 100)).toFixed(2)}
+                            ₹{Math.round(relatedProduct.price * (1 - relatedProduct.discount / 100))}
                           </span>
                         </>
                       ) : (
-                        <span className="price">${relatedProduct.price}</span>
+                        <span className="price">₹{relatedProduct.price}</span>
                       )}
                     </div>
                   </div>

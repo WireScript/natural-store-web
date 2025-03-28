@@ -128,16 +128,14 @@ export default function CartPage() {
                 </div>
                 <div className="item-details">
                   <h3 className="item-title">{item.title}</h3>
-                  <div className="item-price">
+                  <div className="cart-item-price">
                     {item.discount > 0 ? (
                       <>
-                        <span className="price-original">${item.price.toFixed(2)}</span>
-                        <span className="price-discounted">
-                          ${(item.price * (1 - item.discount / 100)).toFixed(2)}
-                        </span>
+                        <span className="price-original">₹{item.price}</span>
+                        <span className="price-discounted">₹{Math.round(item.price * (1 - item.discount / 100))}</span>
                       </>
                     ) : (
-                      <span className="price">${item.price.toFixed(2)}</span>
+                      <span className="price">₹{item.price}</span>
                     )}
                   </div>
                 </div>
@@ -157,10 +155,8 @@ export default function CartPage() {
                     +
                   </button>
                 </div>
-                <div className="item-total">
-                  ${((item.discount > 0 
-                    ? item.price * (1 - item.discount / 100) 
-                    : item.price) * item.quantity).toFixed(2)}
+                <div className="cart-item-total">
+                  ₹{Math.round(item.price * (1 - (item.discount || 0) / 100) * item.quantity)}
                 </div>
                 <button 
                   className="remove-item-btn"
@@ -188,30 +184,26 @@ export default function CartPage() {
             <div className="order-summary">
               <h2>Order Summary</h2>
               
-              <div className="summary-row">
+              <div className="cart-summary-row">
                 <span>Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span>₹{Math.round(cartItems.reduce((total, item) => total + (item.price * (1 - (item.discount || 0) / 100) * item.quantity), 0))}</span>
               </div>
               
-              <div className="summary-row">
+              <div className="cart-summary-row">
                 <span>Shipping</span>
-                <span>
-                  {shipping === 0 
-                    ? <span className="free-shipping">FREE</span> 
-                    : `$${shipping.toFixed(2)}`}
-                </span>
+                <span>{shipping === 0 ? 'Free' : `₹${shipping}`}</span>
               </div>
               
               {discount > 0 && (
-                <div className="summary-row discount">
+                <div className="cart-summary-row discount">
                   <span>Discount (20%)</span>
-                  <span>-${discount.toFixed(2)}</span>
+                  <span>-₹{discount}</span>
                 </div>
               )}
               
-              <div className="summary-row total">
+              <div className="cart-summary-row total">
                 <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+                <span>₹{Math.round(cartItems.reduce((total, item) => total + (item.price * (1 - (item.discount || 0) / 100) * item.quantity), 0) + shipping - discount)}</span>
               </div>
               
               <div className="coupon-container">

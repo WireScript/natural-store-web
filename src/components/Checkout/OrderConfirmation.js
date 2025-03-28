@@ -91,14 +91,14 @@ export default function OrderConfirmation() {
         </div>
         
         <div className="order-detail-row">
-          <span className="order-detail-label">Total Amount</span>
-          <span className="order-detail-value">${total.toFixed(2)}</span>
+          <span className="order-detail-label">Total</span>
+          <span className="order-detail-value">₹{Math.round(total)}</span>
         </div>
         
         {discount > 0 && (
-          <div className="order-detail-row" style={{ color: '#4CAF50' }}>
-            <span className="order-detail-label">Discount Applied</span>
-            <span className="order-detail-value">-${discount.toFixed(2)}</span>
+          <div className="order-detail-row">
+            <span className="order-detail-label">Discount</span>
+            <span className="order-detail-value">-₹{Math.round(discount)}</span>
           </div>
         )}
       </div>

@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
@@ -45,19 +46,16 @@ export default function OrderSummary() {
             </div>
             <div className="order-item-details">
               <h3 className="order-item-title">{item.title}</h3>
-              <div className="order-item-price">
+              <p className="order-item-price">
                 {item.discount > 0 ? (
-                  <>
-                    ${(item.price * (1 - item.discount / 100)).toFixed(2)}
-                    <span className="price-original"> ${item.price.toFixed(2)}</span>
-                  </>
+                  <>₹{Math.round(item.price * (1 - item.discount / 100))}</>
                 ) : (
-                  <>${item.price.toFixed(2)}</>
+                  <>₹{item.price}</>
                 )}
-              </div>
+              </p>
             </div>
             <div className="order-item-quantity">
-              <span>×{item.quantity}</span>
+              <span>x {item.quantity}</span>
             </div>
           </div>
         ))}
@@ -65,28 +63,28 @@ export default function OrderSummary() {
       
       <div className="summary-row">
         <span>Subtotal</span>
-        <span>${subtotal.toFixed(2)}</span>
+        <span>₹{Math.round(subtotal)}</span>
       </div>
       
       <div className="summary-row">
         <span>Shipping</span>
         <span>
           {shipping === 0 
-            ? <span className="free-shipping">FREE</span> 
-            : `$${shipping.toFixed(2)}`}
+            ? <span className="free-shipping">Free</span> 
+            : `₹${shipping}`}
         </span>
       </div>
       
       {discount > 0 && (
         <div className="summary-row discount">
-          <span>Discount (20%)</span>
-          <span>-${discount.toFixed(2)}</span>
+          <span>Discount</span>
+          <span>-₹{Math.round(discount)}</span>
         </div>
       )}
       
       <div className="summary-row total">
         <span>Total</span>
-        <span>${total.toFixed(2)}</span>
+        <span>₹{Math.round(total)}</span>
       </div>
       
       {!checkoutData.discountApplied && (

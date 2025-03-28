@@ -67,13 +67,13 @@ const ProductCard = ({ product }) => {
         <div className="product-price">
           {product.discount > 0 ? (
             <>
-              <span className="price-original">${product.price}</span>
+              <span className="price-original">₹{product.price}</span>
               <span className="price-discounted">
-                ${(product.price * (1 - product.discount / 100)).toFixed(2)}
+                ₹{Math.round(product.price * (1 - product.discount / 100))}
               </span>
             </>
           ) : (
-            <span className="price">${product.price}</span>
+            <span className="price">₹{product.price}</span>
           )}
         </div>
 

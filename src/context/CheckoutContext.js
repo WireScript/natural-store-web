@@ -133,16 +133,24 @@ export function CheckoutProvider({ children }) {
   
   // Calculate totals
   const calculateTotals = () => {
-    const shippingCost = checkoutData.shipping.method === 'express' ? 15.99 : (subtotal > 50 ? 0 : 5.99);
-    const discountAmount = checkoutData.discountApplied ? subtotal * 0.2 : 0;
-    const total = subtotal + shippingCost - discountAmount;
+    // Calculate subtotal
+    const subtotal = cartItems.reduce((total, item) => {
+      const itemPrice = item.price * (1 - (item.discount || 0) / 100);
+      return total + (itemPrice * item.quantity);
+    }, 0);
     
-    return {
-      subtotal,
-      shipping: shippingCost,
-      discount: discountAmount,
-      total
-    };
+    // Calculate shipping (free for orders over ₹1500)
+    const shipping = subtotal >= 1500 ? 0 : 149;
+    
+    // Apply any discounts from coupon codes
+    const discount = checkoutData.coupon?.discount 
+      ? (subtotal * checkoutData.coupon.discount / 100) 
+      : 0;
+    
+    // Calculate total
+    const total = subtotal + shipping - discount;
+    
+    return { subtotal, shipping, discount, total };
   };
   
   // Place order
