@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import ProductCard from './ProductCard';
-import FilterSidebar from './FilterSidebar';
-import SortDropdown from './SortDropdown';
-import FeaturedSections from './FeaturedSections';
+import ProductCard from '@/components/Shop/ProductCard';
+import FilterSidebar from '@/components/Shop/FilterSidebar';
+import SortDropdown from '@/components/Shop/SortDropdown';
 import './ProductGrid.css';
 
 const ProductGrid = ({ productData }) => {

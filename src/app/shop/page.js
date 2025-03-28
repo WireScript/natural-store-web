@@ -1,8 +1,6 @@
 import React from 'react';
-import ProductSlider from '@/components/ProductSlider';
-import ProductGrid from '@/components/ProductGrid';
+import ProductGrid from '@/components/Shop/ProductGrid';
 import './shop.css';
-import FeaturedSections from '@/components/FeaturedSections';
 
 const productData = [
     {
@@ -156,7 +154,6 @@ const ShopPage = () => {
         <div id="products-section">
           <ProductGrid productData={productData} />
         </div>
-        {/* <FeaturedSections products={productData} /> */}
       </div>
     </div>
   );
