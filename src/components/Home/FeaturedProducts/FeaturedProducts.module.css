@@ -134,9 +134,58 @@
   text-align: center;
   transition: all 0.3s ease;
   cursor: pointer;
+  border: none;
+  position: relative;
+  overflow: hidden;
   
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: #2E7D32;
+  }
+}
+
+.Adding {
+  background-color: #2E7D32;
+  cursor: default;
+}
+
+.Adding:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: rgba(255, 255, 255, 0.15);
+  animation: sweep 1s ease-in-out;
+}
+
+.ButtonAdding {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.CheckIcon {
+  display: inline-block;
+  animation: bounce 0.5s ease;
+}
+
+@keyframes sweep {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
   }
 }
 

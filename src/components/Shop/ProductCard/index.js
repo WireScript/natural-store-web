@@ -1,10 +1,28 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useCart } from '@/context/CartContext';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const { addToCart } = useCart();
+
+  const handleAddToCart = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    setIsAddingToCart(true);
+    
+    // Add the product to cart
+    addToCart(product, 1);
+    
+    // Show adding animation for a short period
+    setTimeout(() => {
+      setIsAddingToCart(false);
+    }, 1000);
+  };
 
   return (
     <div 
@@ -54,9 +72,19 @@ const ProductCard = ({ product }) => {
         </div>
 
         <div className="product-actions">
-          <button className="btn-add-cart">
-            {/* <span className="icon">🛒</span> */}
-            Add to Cart
+          <button 
+            className={`btn-add-cart ${isAddingToCart ? 'adding' : ''}`}
+            onClick={handleAddToCart}
+            disabled={isAddingToCart}
+          >
+            {isAddingToCart ? (
+              <>
+                <span className="adding-icon">✓</span>
+                Added
+              </>
+            ) : (
+              'Add to Cart'
+            )}
           </button>
           <button className="btn-view-details">
             View Details

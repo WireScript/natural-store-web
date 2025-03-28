@@ -104,20 +104,24 @@
 }
 
 .show-more-button {
-  background-color: #4CAF50; /* Green color from Hero component */
-  color: white;
-  border: none;
-  padding: 0.75rem 2rem;
-  border-radius: 30px; /* Match the round style from Hero CTA button */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3); /* Matching shadow style */
   letter-spacing: 0.05em;
-}
+  background-color: transparent;
+  color: #2E7D32;
+  border: 2px solid #2E7D32;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  transition: all 0.3s ease;
 
-.show-more-button:hover {
-  background-color: #2E7D32; /* Darker green from Hero hover state */
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(46, 125, 50, 0.4);
-} 
+  &:hover {
+    background-color: #2E7D32;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+  }
+}
