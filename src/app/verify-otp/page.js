@@ -140,13 +140,6 @@ export default function VerifyOTPPage() {
   
   return (
     <div className={styles.authContainer}>
-      <div className={styles.logoContainer}>
-        <div className={styles.logoWrapper}>
-          <div className={styles.logoCircle}></div>
-          <span className={styles.logoText}>NATURE ESSENTIALS</span>
-        </div>
-        <p className={styles.logoTagline}>The best natural products for your lifestyle</p>
-      </div>
       
       <div className={styles.formContainer}>
         <div className={styles.formHeader}>

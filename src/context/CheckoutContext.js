@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useCart } from './CartContext';
+import { useAuth } from './AuthContext';
 
 const CheckoutContext = createContext();
 
@@ -11,6 +12,7 @@ export function useCheckout() {
 
 export function CheckoutProvider({ children }) {
   const { cartItems, subtotal, clearCart } = useCart();
+  const { user, isAuthenticated } = useAuth();
   
   // Checkout steps
   const STEPS = {
@@ -59,7 +61,8 @@ export function CheckoutProvider({ children }) {
     orderNotes: '',
     couponCode: '',
     discountApplied: false,
-    discountAmount: 0
+    discountAmount: 0,
+    selectedAddressId: null // To track selected address from saved addresses
   });
   
   // Load checkout data from localStorage on component mount
@@ -74,6 +77,39 @@ export function CheckoutProvider({ children }) {
       }
     }
   }, []);
+
+  // Pre-fill customer details if user is logged in
+  useEffect(() => {
+    if (isAuthenticated() && user) {
+      // Update customer info
+      updateCheckoutData('customer', {
+        firstName: user.fullName.split(' ')[0] || '',
+        lastName: user.fullName.split(' ').slice(1).join(' ') || '',
+        email: user.email || '',
+        phone: user.mobile || ''
+      });
+      
+      // If user has a default address, use it
+      if (user.addresses && user.addresses.length > 0) {
+        const defaultAddress = user.addresses.find(addr => addr.isDefault) || user.addresses[0];
+        
+        // Mark this address as selected
+        updateCheckoutData('selectedAddressId', defaultAddress.id);
+        
+        // Set address details
+        let addressParts = defaultAddress.addressLine1.split(',');
+        
+        updateCheckoutData('shippingAddress', {
+          address: defaultAddress.addressLine1,
+          apartment: defaultAddress.addressLine2 || '',
+          city: defaultAddress.city,
+          state: defaultAddress.state,
+          zipCode: defaultAddress.pincode,
+          country: 'India'
+        });
+      }
+    }
+  }, [isAuthenticated, user]);
   
   // Update localStorage whenever checkout data changes
   useEffect(() => {
@@ -82,13 +118,38 @@ export function CheckoutProvider({ children }) {
   
   // Update checkout data
   const updateCheckoutData = (section, data) => {
-    setCheckoutData(prevData => ({
-      ...prevData,
-      [section]: {
-        ...prevData[section],
-        ...data
+    setCheckoutData(prevData => {
+      if (typeof section === 'string') {
+        return {
+          ...prevData,
+          [section]: typeof data === 'object' && data !== null
+            ? { ...prevData[section], ...data }
+            : data
+        };
       }
-    }));
+      return prevData;
+    });
+  };
+  
+  // Set address from saved addresses
+  const setAddressFromSaved = (addressId) => {
+    if (!user || !user.addresses) return;
+    
+    const selectedAddress = user.addresses.find(addr => addr.id === addressId);
+    if (selectedAddress) {
+      // Mark this address as selected
+      updateCheckoutData('selectedAddressId', selectedAddress.id);
+      
+      // Update shipping address
+      updateCheckoutData('shippingAddress', {
+        address: selectedAddress.addressLine1,
+        apartment: selectedAddress.addressLine2 || '',
+        city: selectedAddress.city,
+        state: selectedAddress.state,
+        zipCode: selectedAddress.pincode,
+        country: 'India'
+      });
+    }
   };
   
   // Go to next step
@@ -139,8 +200,8 @@ export function CheckoutProvider({ children }) {
       return total + (itemPrice * item.quantity);
     }, 0);
     
-    // Calculate shipping (free for orders over ₹1500)
-    const shipping = subtotal >= 1500 ? 0 : 149;
+    // Calculate shipping (free for orders over ₹3000)
+    const shipping = subtotal >= 3000 ? 0 : 149;
     
     // Apply any discounts from coupon codes
     const discount = checkoutData.coupon?.discount 
@@ -202,7 +263,8 @@ export function CheckoutProvider({ children }) {
     goToStep,
     applyCoupon,
     calculateTotals,
-    placeOrder
+    placeOrder,
+    setAddressFromSaved
   };
   
   return (

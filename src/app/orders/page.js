@@ -2,13 +2,55 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { useAuth } from '@/context/AuthContext';
+import Link from 'next/link';
+import styles from '@/styles/profile.module.css';
 
 export default function OrdersPage() {
   const [isLoading, setIsLoading] = useState(true);
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
+
+  // Mock order data - would be fetched from an API in a real app
+  const [orders, setOrders] = useState([
+    {
+      id: 'ORD123456',
+      date: new Date(2023, 5, 15),
+      total: 2499,
+      status: 'Delivered',
+      items: [
+        { id: 1, name: 'Organic Face Wash', price: 699, quantity: 1 },
+        { id: 2, name: 'Herbal Shampoo', price: 599, quantity: 3 }
+      ],
+      shippingAddress: {
+        fullName: 'John Doe',
+        addressLine1: '123 Main St',
+        city: 'Bangalore',
+        state: 'Karnataka',
+        pincode: '560001'
+      },
+      paymentMethod: 'UPI'
+    },
+    {
+      id: 'ORD789012',
+      date: new Date(2023, 5, 10),
+      total: 1499,
+      status: 'Processing',
+      items: [
+        { id: 3, name: 'Natural Body Lotion', price: 499, quantity: 1 },
+        { id: 4, name: 'Ayurvedic Hair Oil', price: 349, quantity: 2 },
+        { id: 5, name: 'Herbal Face Pack', price: 299, quantity: 1 }
+      ],
+      shippingAddress: {
+        fullName: 'John Doe',
+        addressLine1: '123 Main St',
+        city: 'Bangalore',
+        state: 'Karnataka',
+        pincode: '560001'
+      },
+      paymentMethod: 'Card'
+    }
+  ]);
 
   // Redirect if not logged in
   useEffect(() => {
@@ -19,31 +61,6 @@ export default function OrdersPage() {
     }
   }, [isAuthenticated, router, isLoading]);
 
-  // For demo purposes, we'll create some dummy orders
-  const dummyOrders = [
-    {
-      id: 'ORD123456',
-      date: new Date(2023, 6, 15),
-      status: 'Delivered',
-      total: 1895,
-      items: 3
-    },
-    {
-      id: 'ORD123457',
-      date: new Date(2023, 7, 2),
-      status: 'Processing',
-      total: 2499,
-      items: 2
-    },
-    {
-      id: 'ORD123458',
-      date: new Date(2023, 7, 10),
-      status: 'Shipped',
-      total: 999,
-      items: 1
-    }
-  ];
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -53,57 +70,91 @@ export default function OrdersPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 py-12">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md overflow-hidden">
-          <div className="p-8">
-            <div className="mb-6">
-              <h1 className="text-2xl font-bold text-gray-900">My Orders</h1>
-              <p className="text-gray-600 mt-1">View and track your orders</p>
-            </div>
-            
-            {dummyOrders.length > 0 ? (
-              <div className="space-y-6">
-                {dummyOrders.map(order => (
-                  <div 
-                    key={order.id} 
-                    className="border border-gray-200 rounded-lg p-6 transition-shadow hover:shadow-md"
-                  >
-                    <div className="flex flex-col sm:flex-row justify-between mb-4">
-                      <div>
-                        <h3 className="text-lg font-semibold">{order.id}</h3>
-                        <p className="text-sm text-gray-500">
-                          Placed on {order.date.toLocaleDateString('en-IN', {
-                            day: 'numeric',
-                            month: 'long',
-                            year: 'numeric'
-                          })}
-                        </p>
-                      </div>
-                      <div className="mt-2 sm:mt-0">
-                        <span className={`inline-flex px-3 py-1 rounded-full text-sm font-medium
-                          ${order.status === 'Delivered' ? 'bg-green-100 text-green-800' : 
-                            order.status === 'Processing' ? 'bg-blue-100 text-blue-800' :
-                            'bg-yellow-100 text-yellow-800'}`}
-                        >
-                          {order.status}
-                        </span>
-                      </div>
+    <div className={styles.profileContainer}>
+      <div className={styles.container}>
+        <h1 className={styles.pageTitle}>My Orders</h1>
+        
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <h2 className={styles.cardTitle}>Order History</h2>
+            <Link href="/profile" className={`${styles.button} ${styles.buttonSecondary}`}>
+              Back to Profile
+            </Link>
+          </div>
+          
+          <div className={styles.cardContent}>
+            {orders.length > 0 ? (
+              <div className={styles.orderList}>
+                {orders.map((order) => (
+                  <div key={order.id} className={styles.orderCard}>
+                    <div className={styles.orderHeader}>
+                      <div className={styles.orderNumber}>Order #{order.id}</div>
+                      <div className={styles.orderStatus}>{order.status}</div>
                     </div>
                     
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center">
-                      <div>
-                        <p className="text-sm text-gray-600">
-                          {order.items} {order.items === 1 ? 'item' : 'items'}
-                        </p>
-                        <p className="font-medium">₹{order.total}</p>
+                    <div className={styles.orderContent}>
+                      <div className={styles.orderDetails}>
+                        <div className={styles.orderDetailGroup}>
+                          <div className={styles.orderDetailLabel}>Order Date</div>
+                          <div className={styles.orderDetailValue}>
+                            {order.date.toLocaleDateString('en-IN', {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric'
+                            })}
+                          </div>
+                        </div>
+                        
+                        <div className={styles.orderDetailGroup}>
+                          <div className={styles.orderDetailLabel}>Total Amount</div>
+                          <div className={styles.orderDetailValue}>₹{order.total}</div>
+                        </div>
+                        
+                        <div className={styles.orderDetailGroup}>
+                          <div className={styles.orderDetailLabel}>Payment Method</div>
+                          <div className={styles.orderDetailValue}>{order.paymentMethod}</div>
+                        </div>
                       </div>
-                      <div className="mt-3 sm:mt-0 w-full sm:w-auto">
-                        <Link
-                          href={`/orders/${order.id}`}
-                          className="block w-full sm:w-auto text-center px-4 py-2 border border-green-600 rounded-md text-green-600 hover:bg-green-50 transition-colors"
+                      
+                      <div className={styles.infoSectionTitle}>Items</div>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '1.5rem' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid #e2e8f0' }}>
+                            <th style={{ textAlign: 'left', padding: '0.5rem 0', fontSize: '0.875rem', color: '#718096' }}>Product</th>
+                            <th style={{ textAlign: 'center', padding: '0.5rem 0', fontSize: '0.875rem', color: '#718096' }}>Quantity</th>
+                            <th style={{ textAlign: 'right', padding: '0.5rem 0', fontSize: '0.875rem', color: '#718096' }}>Price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {order.items.map((item) => (
+                            <tr key={item.id} style={{ borderBottom: '1px solid #f7fafc' }}>
+                              <td style={{ padding: '0.75rem 0', fontSize: '0.875rem', color: '#4a5568' }}>{item.name}</td>
+                              <td style={{ textAlign: 'center', padding: '0.75rem 0', fontSize: '0.875rem', color: '#4a5568' }}>{item.quantity}</td>
+                              <td style={{ textAlign: 'right', padding: '0.75rem 0', fontSize: '0.875rem', color: '#4a5568' }}>₹{item.price}</td>
+                            </tr>
+                          ))}
+                          <tr>
+                            <td colSpan={2} style={{ textAlign: 'right', padding: '1rem 0', fontWeight: '500', color: '#2d3748' }}>Total:</td>
+                            <td style={{ textAlign: 'right', padding: '1rem 0', fontWeight: '700', color: '#2d3748' }}>₹{order.total}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      
+                      <div className={styles.infoSectionTitle}>Shipping Address</div>
+                      <div className={styles.addressDetails}>
+                        <p>{order.shippingAddress.fullName}</p>
+                        <p>{order.shippingAddress.addressLine1}</p>
+                        <p>
+                          {order.shippingAddress.city}, {order.shippingAddress.state} - {order.shippingAddress.pincode}
+                        </p>
+                      </div>
+                      
+                      <div className={styles.formActions} style={{ marginTop: '1.5rem' }}>
+                        <Link 
+                          href={`/orders/${order.id}`} 
+                          className={`${styles.button} ${styles.buttonPrimary}`}
                         >
-                          View Order
+                          View Order Details
                         </Link>
                       </div>
                     </div>
@@ -111,34 +162,19 @@ export default function OrdersPage() {
                 ))}
               </div>
             ) : (
-              <div className="bg-gray-50 rounded-lg p-8 text-center">
-                <svg
-                  className="mx-auto h-12 w-12 text-gray-400"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                  />
-                </svg>
-                <h3 className="mt-2 text-sm font-medium text-gray-900">No orders found</h3>
-                <p className="mt-1 text-sm text-gray-500">
-                  You haven't placed any orders yet.
-                </p>
-                <div className="mt-6">
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
-                    onClick={() => router.push('/shop')}
-                  >
-                    Start Shopping
-                  </button>
+              <div className={styles.emptyState}>
+                <div className={styles.emptyStateIcon}>
+                  <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                  </svg>
                 </div>
+                <p className={styles.emptyStateText}>You haven't placed any orders yet.</p>
+                <Link
+                  href="/shop"
+                  className={`${styles.button} ${styles.buttonPrimary}`}
+                >
+                  Start Shopping
+                </Link>
               </div>
             )}
           </div>

@@ -88,7 +88,8 @@ export function AuthProvider({ children }) {
       }
       
       // Generate OTP (6 digits)
-      const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      // const otp = Math.floor(100000 + Math.random() * 900000).toString();
+      const otp = '123456';
       const otpExpiry = new Date();
       otpExpiry.setMinutes(otpExpiry.getMinutes() + 10); // OTP valid for 10 minutes
       
@@ -98,7 +99,8 @@ export function AuthProvider({ children }) {
         createdAt: new Date().toISOString(),
         verified: false,
         otp,
-        otpExpiry: otpExpiry.toISOString()
+        otpExpiry: otpExpiry.toISOString(),
+        addresses: [] // Initialize empty addresses array
       };
       
       // Save to localStorage
@@ -111,6 +113,9 @@ export function AuthProvider({ children }) {
       
       // In a real app, this would send an OTP to the user's mobile
       console.log(`OTP for ${userData.username}: ${otp}`); // For demo purposes
+
+      // Redirect to verify-otp page
+      router.push('/verify-otp');
       
       return true;
     } catch (error) {
@@ -163,6 +168,9 @@ export function AuthProvider({ children }) {
         // Update local storage
         localStorage.setItem('user', JSON.stringify(userInfo));
         localStorage.removeItem('pendingVerification');
+        
+        // Redirect to shop page
+        router.push('/shop');
         
         return true;
       } else {
@@ -230,6 +238,169 @@ export function AuthProvider({ children }) {
     return !!user;
   };
 
+  // Add a new address
+  const addAddress = (address) => {
+    if (!user) return false;
+
+    try {
+      // Generate a unique ID for the address
+      const addressId = Date.now().toString();
+      const newAddress = { id: addressId, ...address };
+      
+      // Add default flag if this is the first address
+      if (!user.addresses || user.addresses.length === 0) {
+        newAddress.isDefault = true;
+      }
+      
+      // Create a new addresses array (or use the existing one)
+      const addresses = user.addresses ? [...user.addresses, newAddress] : [newAddress];
+      
+      // Update user in state
+      const updatedUser = { ...user, addresses };
+      setUser(updatedUser);
+      
+      // Update user in localStorage
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      // Also update in users array in localStorage
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const updatedUsers = users.map(u => {
+        if (u.id === user.id) {
+          const updatedUserInArray = { ...u, addresses };
+          return updatedUserInArray;
+        }
+        return u;
+      });
+      
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      
+      return true;
+    } catch (error) {
+      console.error('Failed to add address:', error);
+      return false;
+    }
+  };
+
+  // Edit an existing address
+  const editAddress = (addressId, updatedAddress) => {
+    if (!user || !user.addresses) return false;
+
+    try {
+      // Find and update the address
+      const addresses = user.addresses.map(addr => {
+        if (addr.id === addressId) {
+          return { ...addr, ...updatedAddress };
+        }
+        return addr;
+      });
+      
+      // Update user in state
+      const updatedUser = { ...user, addresses };
+      setUser(updatedUser);
+      
+      // Update user in localStorage
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      // Also update in users array in localStorage
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const updatedUsers = users.map(u => {
+        if (u.id === user.id) {
+          const updatedUserInArray = { ...u, addresses };
+          return updatedUserInArray;
+        }
+        return u;
+      });
+      
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      
+      return true;
+    } catch (error) {
+      console.error('Failed to edit address:', error);
+      return false;
+    }
+  };
+
+  // Delete an address
+  const deleteAddress = (addressId) => {
+    if (!user || !user.addresses) return false;
+
+    try {
+      // Filter out the address to delete
+      let addresses = user.addresses.filter(addr => addr.id !== addressId);
+      
+      // If the deleted address was the default and we have other addresses, set a new default
+      if (user.addresses.find(addr => addr.id === addressId)?.isDefault && addresses.length > 0) {
+        addresses = addresses.map((addr, index) => {
+          if (index === 0) {
+            return { ...addr, isDefault: true };
+          }
+          return addr;
+        });
+      }
+      
+      // Update user in state
+      const updatedUser = { ...user, addresses };
+      setUser(updatedUser);
+      
+      // Update user in localStorage
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      // Also update in users array in localStorage
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const updatedUsers = users.map(u => {
+        if (u.id === user.id) {
+          const updatedUserInArray = { ...u, addresses };
+          return updatedUserInArray;
+        }
+        return u;
+      });
+      
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      
+      return true;
+    } catch (error) {
+      console.error('Failed to delete address:', error);
+      return false;
+    }
+  };
+
+  // Set an address as default
+  const setDefaultAddress = (addressId) => {
+    if (!user || !user.addresses) return false;
+
+    try {
+      // Update isDefault flag for all addresses
+      const addresses = user.addresses.map(addr => ({
+        ...addr,
+        isDefault: addr.id === addressId
+      }));
+      
+      // Update user in state
+      const updatedUser = { ...user, addresses };
+      setUser(updatedUser);
+      
+      // Update user in localStorage
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      
+      // Also update in users array in localStorage
+      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const updatedUsers = users.map(u => {
+        if (u.id === user.id) {
+          const updatedUserInArray = { ...u, addresses };
+          return updatedUserInArray;
+        }
+        return u;
+      });
+      
+      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      
+      return true;
+    } catch (error) {
+      console.error('Failed to set default address:', error);
+      return false;
+    }
+  };
+
   // Auth context value
   const value = {
     user,
@@ -242,7 +413,11 @@ export function AuthProvider({ children }) {
     resendOTP,
     logout,
     isAuthenticated,
-    mobile: pendingVerification?.mobile || ''
+    mobile: pendingVerification?.mobile || '',
+    addAddress,
+    editAddress,
+    deleteAddress,
+    setDefaultAddress
   };
 
   // Return the provider with the value
