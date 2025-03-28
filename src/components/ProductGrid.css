@@ -1,5 +1,5 @@
 .product-section {
-  padding: 2rem 1rem;
+  padding: 0 1rem 2rem;
   max-width: 1280px;
   margin: 0 auto;
 }
@@ -7,6 +7,8 @@
 .product-layout {
   display: flex;
   gap: 2rem;
+  border-top: 1px solid #eaeaea;
+  padding-top: 2rem;
 }
 
 .filter-container {
@@ -75,4 +77,26 @@
   .product-grid {
     grid-template-columns: 1fr;
   }
+}
+
+.show-more-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.show-more-button {
+  background-color: #4a6741;
+  color: white;
+  border: none;
+  padding: 0.75rem 2rem;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.show-more-button:hover {
+  background-color: #3a5233;
 } 
