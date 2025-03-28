@@ -229,3 +229,144 @@
   color: #2e3a1f;
   cursor: pointer;
 }
+
+/* Auth Links Styles */
+.authLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+.loginLink, .signupLink {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.loginLink:hover, .signupLink:hover {
+  color: #4CAF50;
+}
+
+.authDivider {
+  color: #ccc;
+  margin: 0 0.25rem;
+}
+
+/* Profile Dropdown Styles */
+.profileDropdown {
+  position: relative;
+  
+  @media (max-width: 640px) {
+    display: none;
+  }
+}
+
+.profileBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.profileBtn:hover {
+  transform: translateY(-2px);
+}
+
+.profileSvg {
+  width: 24px;
+  height: 24px;
+  color: #2e3a1f;
+  transition: color 0.3s ease;
+}
+
+.profileBtn:hover .profileSvg {
+  color: #4CAF50;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  width: 220px;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2e3a1f;
+}
+
+.userEmail {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.25rem;
+  word-break: break-all;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background-color: #eee;
+  margin: 0.75rem 0;
+}
+
+.dropdownItem {
+  display: block;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+
+.dropdownItem:hover {
+  color: #4CAF50;
+}
+
+/* Mobile User Info Styles */
+.userInfoMobile {
+  font-weight: 600;
+  margin-top: 1rem;
+  color: #4CAF50;
+}
+
+.logoutBtnMobile {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}

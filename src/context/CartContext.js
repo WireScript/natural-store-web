@@ -18,7 +18,9 @@ export function CartProvider({ children }) {
     
     if (storedCart) {
       try {
-        setCartItems(JSON.parse(storedCart));
+        const parsedCart = JSON.parse(storedCart);
+        // Ensure cartItems is always an array
+        setCartItems(Array.isArray(parsedCart) ? parsedCart : []);
       } catch (error) {
         console.error('Failed to parse cart from localStorage:', error);
         setCartItems([]);
@@ -68,12 +70,15 @@ export function CartProvider({ children }) {
   // Add item to cart
   const addToCart = (product, quantity = 1) => {
     setCartItems(prevItems => {
+      // Ensure prevItems is an array
+      const items = Array.isArray(prevItems) ? prevItems : [];
+      
       // Check if item is already in cart
-      const existingItemIndex = prevItems.findIndex(item => item.id === product.id);
+      const existingItemIndex = items.findIndex(item => item.id === product.id);
       
       if (existingItemIndex >= 0) {
         // Update quantity if item exists
-        const updatedItems = [...prevItems];
+        const updatedItems = [...items];
         updatedItems[existingItemIndex] = {
           ...updatedItems[existingItemIndex],
           quantity: updatedItems[existingItemIndex].quantity + quantity
@@ -81,7 +86,7 @@ export function CartProvider({ children }) {
         return updatedItems;
       } else {
         // Add new item
-        return [...prevItems, { ...product, quantity }];
+        return [...items, { ...product, quantity }];
       }
     });
   };
@@ -90,18 +95,25 @@ export function CartProvider({ children }) {
   const updateQuantity = (itemId, newQuantity) => {
     if (newQuantity < 1) return;
     
-    setCartItems(prevItems => 
-      prevItems.map(item => 
+    setCartItems(prevItems => {
+      // Ensure prevItems is an array
+      const items = Array.isArray(prevItems) ? prevItems : [];
+      
+      return items.map(item => 
         item.id === itemId 
           ? { ...item, quantity: newQuantity } 
           : item
-      )
-    );
+      );
+    });
   };
   
   // Remove item from cart
   const removeItem = (itemId) => {
-    setCartItems(prevItems => prevItems.filter(item => item.id !== itemId));
+    setCartItems(prevItems => {
+      // Ensure prevItems is an array
+      const items = Array.isArray(prevItems) ? prevItems : [];
+      return items.filter(item => item.id !== itemId);
+    });
   };
   
   // Clear cart
@@ -109,16 +121,20 @@ export function CartProvider({ children }) {
     setCartItems([]);
   };
   
-  // Calculate total number of items
-  const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0);
+  // Calculate total number of items - ensure cartItems is an array
+  const totalItems = Array.isArray(cartItems) 
+    ? cartItems.reduce((total, item) => total + item.quantity, 0)
+    : 0;
   
-  // Calculate cart subtotal
-  const subtotal = cartItems.reduce((total, item) => {
-    const itemPrice = item.discount > 0 
-      ? item.price * (1 - item.discount / 100) 
-      : item.price;
-    return total + (itemPrice * item.quantity);
-  }, 0);
+  // Calculate cart subtotal - ensure cartItems is an array
+  const subtotal = Array.isArray(cartItems)
+    ? cartItems.reduce((total, item) => {
+        const itemPrice = item.discount > 0 
+          ? item.price * (1 - item.discount / 100) 
+          : item.price;
+        return total + (itemPrice * item.quantity);
+      }, 0)
+    : 0;
   
   const value = {
     cartItems,
