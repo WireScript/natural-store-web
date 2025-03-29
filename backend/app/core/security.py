@@ -1,10 +1,16 @@
 from datetime import datetime, timedelta
 from typing import Optional
+from fastapi import Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 from ..core.config import settings
+from ..db.mongodb import mongodb
+from ..models.user import User
+from bson import ObjectId
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return pwd_context.verify(plain_password, hashed_password)
@@ -28,3 +34,29 @@ def verify_token(token: str) -> Optional[dict]:
         return payload
     except JWTError:
         return None
+
+async def get_current_user(token: str = Depends(oauth2_scheme)) -> User:
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    
+    payload = verify_token(token)
+    if payload is None:
+        raise credentials_exception
+    
+    user_id = payload.get("sub")
+    if user_id is None:
+        raise credentials_exception
+    
+    try:
+        user = await mongodb.db.users.find_one({"_id": ObjectId(user_id)})
+        if user is None:
+            raise credentials_exception
+        
+        # Convert _id to string for Pydantic model compatibility
+        user["_id"] = str(user["_id"])
+        return User(**user)
+    except Exception:
+        raise credentials_exception

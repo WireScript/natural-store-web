@@ -37,3 +37,9 @@ async def shutdown_event():
 @app.get("/", tags=["Root"])
 async def read_root():
     return {"message": "Welcome to Natural Store API"}
+
+
+@app.get("/users")
+async def get_users():
+    users = await mongodb.db.users.find().to_list(length=100)
+    return users

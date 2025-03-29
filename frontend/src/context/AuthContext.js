@@ -41,25 +41,50 @@ export function AuthProvider({ children }) {
   const login = async (username, password) => {
     setAuthError(null);
     
-    // Simulate API call - in a real app, this would be a fetch to your backend
     try {
-      // For demo purposes, check if user exists in localStorage
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const foundUser = users.find(u => 
-        u.username === username && u.password === password && u.verified
-      );
+      const formData = new URLSearchParams();
+      formData.append('username', username);
+      formData.append('password', password);
       
-      if (foundUser) {
-        const userInfo = { ...foundUser };
-        delete userInfo.password; // Don't store password in state
-        
-        setUser(userInfo);
-        localStorage.setItem('user', JSON.stringify(userInfo));
-        return true;
-      } else {
-        setAuthError('Invalid username or password');
+      const response = await fetch('http://localhost:8000/api/v1/auth/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: formData,
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setAuthError(data.detail || 'Login failed');
         return false;
       }
+      
+      // Fetch user details with the token
+      const userResponse = await fetch('http://localhost:8000/api/v1/auth/me', {
+        headers: {
+          'Authorization': `Bearer ${data.access_token}`
+        }
+      });
+      
+      if (!userResponse.ok) {
+        setAuthError('Failed to get user information');
+        return false;
+      }
+      
+      const userInfo = await userResponse.json();
+      
+      // Store user info and token
+      const userData = {
+        ...userInfo,
+        token: data.access_token,
+        verified: true,
+      };
+      
+      setUser(userData);
+      localStorage.setItem('user', JSON.stringify(userData));
+      return true;
     } catch (error) {
       setAuthError('An error occurred during login');
       console.error(error);
@@ -72,51 +97,56 @@ export function AuthProvider({ children }) {
     setAuthError(null);
     
     try {
-      // Simulate API call - in a real app, this would be a fetch to your backend
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
+      const response = await fetch('http://localhost:8000/api/v1/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userData.email,
+          password: userData.password,
+          full_name: userData.fullName,
+          username: userData.username,
+          phone_number: userData.mobile,
+        }),
+      });
       
-      // Check if username already exists
-      if (users.some(u => u.username === userData.username)) {
-        setAuthError('Username already exists');
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setAuthError(data.detail || 'Signup failed');
         return false;
       }
       
-      // Check if email already exists
-      if (users.some(u => u.email === userData.email)) {
-        setAuthError('Email already exists');
-        return false;
-      }
-      
-      // Generate OTP (6 digits)
-      // const otp = Math.floor(100000 + Math.random() * 900000).toString();
-      const otp = '123456';
-      const otpExpiry = new Date();
-      otpExpiry.setMinutes(otpExpiry.getMinutes() + 10); // OTP valid for 10 minutes
-      
-      const newUser = {
+      // Store user data for OTP verification
+      const pendingUser = {
         ...userData,
-        id: Date.now().toString(),
-        createdAt: new Date().toISOString(),
+        id: data._id,
         verified: false,
-        otp,
-        otpExpiry: otpExpiry.toISOString(),
-        addresses: [] // Initialize empty addresses array
       };
       
-      // Save to localStorage
-      users.push(newUser);
-      localStorage.setItem('users', JSON.stringify(users));
+      setPendingVerification(pendingUser);
+      localStorage.setItem('pendingVerification', JSON.stringify(pendingUser));
       
-      // Set pending verification
-      setPendingVerification(newUser);
-      localStorage.setItem('pendingVerification', JSON.stringify(newUser));
+      // Send OTP
+      const otpResponse = await fetch('http://localhost:8000/api/v1/auth/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone_number: userData.mobile,
+        }),
+      });
       
-      // In a real app, this would send an OTP to the user's mobile
-      console.log(`OTP for ${userData.username}: ${otp}`); // For demo purposes
-
+      if (!otpResponse.ok) {
+        const otpData = await otpResponse.json();
+        setAuthError(otpData.detail || 'Failed to send OTP');
+        return false;
+      }
+      
       // Redirect to verify-otp page
       router.push('/verify-otp');
-      
       return true;
     } catch (error) {
       setAuthError('An error occurred during signup');
@@ -135,48 +165,40 @@ export function AuthProvider({ children }) {
     }
     
     try {
-      // Check if OTP is expired
-      const otpExpiry = new Date(pendingVerification.otpExpiry);
-      if (new Date() > otpExpiry) {
-        setAuthError('OTP has expired');
+      const response = await fetch('http://localhost:8000/api/v1/auth/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone_number: pendingVerification.mobile,
+          otp: enteredOTP,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        setAuthError(data.detail || 'OTP verification failed');
         return false;
       }
       
-      // Check if OTP matches
-      if (enteredOTP === pendingVerification.otp) {
-        // Update user in localStorage
-        const users = JSON.parse(localStorage.getItem('users') || '[]');
-        const updatedUsers = users.map(u => {
-          if (u.id === pendingVerification.id) {
-            return { ...u, verified: true };
-          }
-          return u;
-        });
-        
-        localStorage.setItem('users', JSON.stringify(updatedUsers));
-        
-        // Remove sensitive info
-        const userInfo = { ...pendingVerification, verified: true };
-        delete userInfo.password;
-        delete userInfo.otp;
-        delete userInfo.otpExpiry;
-        
-        // Update state
-        setUser(userInfo);
+      // Login the user after successful verification
+      const loginSuccess = await login(
+        pendingVerification.username,
+        pendingVerification.password
+      );
+      
+      if (loginSuccess) {
         setPendingVerification(null);
-        
-        // Update local storage
-        localStorage.setItem('user', JSON.stringify(userInfo));
         localStorage.removeItem('pendingVerification');
         
         // Redirect to shop page
         router.push('/shop');
-        
         return true;
-      } else {
-        setAuthError('Invalid OTP');
-        return false;
       }
+      
+      return false;
     } catch (error) {
       setAuthError('An error occurred during verification');
       console.error(error);
@@ -194,29 +216,22 @@ export function AuthProvider({ children }) {
     }
     
     try {
-      // Generate new OTP
-      const newOTP = Math.floor(100000 + Math.random() * 900000).toString();
-      const otpExpiry = new Date();
-      otpExpiry.setMinutes(otpExpiry.getMinutes() + 10); // OTP valid for 10 minutes
-      
-      // Update user in localStorage
-      const users = JSON.parse(localStorage.getItem('users') || '[]');
-      const updatedUsers = users.map(u => {
-        if (u.id === pendingVerification.id) {
-          return { ...u, otp: newOTP, otpExpiry: otpExpiry.toISOString() };
-        }
-        return u;
+      const response = await fetch('http://localhost:8000/api/v1/auth/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          phone_number: pendingVerification.mobile,
+        }),
       });
       
-      localStorage.setItem('users', JSON.stringify(updatedUsers));
+      const data = await response.json();
       
-      // Update pendingVerification
-      const updatedVerification = { ...pendingVerification, otp: newOTP, otpExpiry: otpExpiry.toISOString() };
-      setPendingVerification(updatedVerification);
-      localStorage.setItem('pendingVerification', JSON.stringify(updatedVerification));
-      
-      // In a real app, this would send the new OTP to the user's mobile
-      console.log(`New OTP for ${pendingVerification.username}: ${newOTP}`); // For demo purposes
+      if (!response.ok) {
+        setAuthError(data.detail || 'Failed to resend OTP');
+        return false;
+      }
       
       return true;
     } catch (error) {

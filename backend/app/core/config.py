@@ -2,6 +2,9 @@ from pydantic_settings import BaseSettings
 from typing import Optional
 
 class Settings(BaseSettings):
+    # Environment
+    ENVIRONMENT: str = "development"
+
     # MongoDB settings
     MONGODB_URL: str
     MONGODB_DB_NAME: str
