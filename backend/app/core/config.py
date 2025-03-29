@@ -3,27 +3,28 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # MongoDB settings
-    MONGODB_URL: str = "mongodb://localhost:27017"
-    MONGODB_DB_NAME: str = "natural_store"
-    
+    MONGODB_URL: str
+    MONGODB_DB_NAME: str
+
     # Redis settings
-    REDIS_URL: str = "redis://localhost:6379"
-    REDIS_DB: int = 0
-    
+    REDIS_URL: str
+    REDIS_DB: int
+
     # JWT settings
-    SECRET_KEY: str = "your-secret-key-here"  # Change this in production
-    ALGORITHM: str = "HS256"
-    ACCESS_TOKEN_EXPIRE_MINUTES: int = 30
-    
+    SECRET_KEY: str
+    ALGORITHM: str
+    ACCESS_TOKEN_EXPIRE_MINUTES: int
+
     # OTP settings
-    OTP_EXPIRE_MINUTES: int = 5
-    
+    OTP_EXPIRE_MINUTES: int
+
     # Twilio settings (for SMS OTP)
     TWILIO_ACCOUNT_SID: Optional[str] = None
     TWILIO_AUTH_TOKEN: Optional[str] = None
     TWILIO_PHONE_NUMBER: Optional[str] = None
-    
-    class Config:
-        env_file = ".env"
 
+    class Config:
+        env_file = ".env"  # Load environment variables from .env
+
+# Load settings
 settings = Settings()

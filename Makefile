@@ -4,15 +4,15 @@ FRONTEND_DIR=frontend
 
 # Start backend (Docker Compose)
 start-backend:
-	cd $(BACKEND_DIR) && docker-compose up -d
+	cd $(BACKEND_DIR) && docker compose up -d
 
 # Stop backend
 stop-backend:
-	cd $(BACKEND_DIR) && docker-compose down
+	cd $(BACKEND_DIR) && docker compose down
 
 # Restart backend
 restart-backend:
-	cd $(BACKEND_DIR) && docker-compose down && docker-compose up -d
+	cd $(BACKEND_DIR) && docker compose down && docker compose up -d
 
 # Start frontend
 start-frontend:
