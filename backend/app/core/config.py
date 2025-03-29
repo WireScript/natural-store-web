@@ -6,9 +6,6 @@ class Settings(BaseSettings):
     MONGODB_URL: str
     MONGODB_DB_NAME: str
 
-    MONGO_INITDB_ROOT_USERNAME: str
-    MONGO_INITDB_ROOT_PASSWORD: str
-
     # Redis settings
     REDIS_URL: str
     REDIS_DB: int
@@ -28,7 +25,6 @@ class Settings(BaseSettings):
 
     class Config:
         env_file = ".env"  # Load environment variables from .env
-        case_sensitive = True  
-
+        
 # Load settings
 settings = Settings()
