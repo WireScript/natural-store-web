@@ -1,5 +1,5 @@
 services:
-  fastapi_app:
+  backend:
     build: .
     container_name: backend
     restart: always
