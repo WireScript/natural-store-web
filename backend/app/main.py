@@ -1,19 +1,39 @@
 from fastapi import FastAPI
-# from app.api.v1.endpoints import user, auth, item
+from fastapi.middleware.cors import CORSMiddleware
+from .api.v1 import auth
+from .db.mongodb import mongodb
+from .db.redis import redis_client
 
 # Initialize FastAPI app
 app = FastAPI(
-    title="Nature Essentials",
-    description="Nature Essentials is a platform for selling nature-based products",
+    title="Natural Store API",
+    description="Natural Store API is a platform for selling nature-based products",
     version="1.0.0"
 )
 
-# Include Routers
-# app.include_router(auth.router, prefix="/auth", tags=["Authentication"])
-# app.include_router(user.router, prefix="/users", tags=["Users"])
-# app.include_router(item.router, prefix="/items", tags=["Items"])
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Include routers
+app.include_router(auth.router, prefix="/api/v1/auth", tags=["auth"])
+
+@app.on_event("startup")
+async def startup_event():
+    await mongodb.connect()
+    await redis_client.connect()
+
+@app.on_event("shutdown")
+async def shutdown_event():
+    await mongodb.close()
+    await redis_client.close()
 
 # Root Endpoint
 @app.get("/", tags=["Root"])
 async def read_root():
-    return {"message": "Welcome to Nature Essentials!"}
+    return {"message": "Welcome to Natural Store API"}

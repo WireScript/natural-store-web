@@ -9,3 +9,10 @@ python-dotenv
 passlib[bcrypt]
 pyjwt
 httpx
+motor
+redis
+python-jose[cryptography]
+python-multipart
+email-validator
+twilio
+pydantic_settings
