@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
@@ -22,20 +22,32 @@ export default function ProfilePage() {
   });
   const [editingAddressId, setEditingAddressId] = useState(null);
   const [addressFormErrors, setAddressFormErrors] = useState({});
+  const [isMounted, setIsMounted] = useState(false);
+  const addressFormRef = useRef(null);
   
   const { user, isAuthenticated, addAddress, editAddress, deleteAddress, setDefaultAddress } = useAuth();
   const router = useRouter();
 
+  // Set mounted state
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   // Redirect if not logged in
   useEffect(() => {
-    console.log('user', user);
-    console.log('isAuthenticated', isAuthenticated());
     if (!isAuthenticated() && !isLoading) {
       router.push('/login');
     } else {
       setIsLoading(false);
     }
   }, [isAuthenticated, router, isLoading]);
+
+  // Scroll to form when it becomes visible
+  useEffect(() => {
+    if (showAddressForm && addressFormRef.current && isMounted) {
+      addressFormRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [showAddressForm, isMounted]);
 
   const resetAddressForm = () => {
     setAddressFormData({
@@ -132,16 +144,10 @@ export default function ProfilePage() {
     });
     setEditingAddressId(address.id);
     setShowAddressForm(true);
-    
-    // Scroll to the form
-    window.scrollTo({
-      top: document.getElementById('address-form').offsetTop - 100,
-      behavior: 'smooth'
-    });
   };
 
   const handleDeleteAddress = (addressId) => {
-    if (window.confirm('Are you sure you want to delete this address?')) {
+    if (isMounted && typeof window !== 'undefined' && window.confirm('Are you sure you want to delete this address?')) {
       deleteAddress(addressId);
     }
   };
@@ -151,6 +157,15 @@ export default function ProfilePage() {
   };
 
   if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
+      </div>
+    );
+  }
+
+  // Avoid rendering user data on the server to prevent hydration mismatch
+  if (!isMounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
@@ -240,7 +255,7 @@ export default function ProfilePage() {
           <div className={styles.cardContent}>
             {/* Address Form */}
             {showAddressForm && (
-              <div id="address-form" className={styles.formContainer}>
+              <div ref={addressFormRef} className={styles.formContainer}>
                 <h3 className={styles.formTitle}>
                   {editingAddressId ? 'Edit Address' : 'Add New Address'}
                 </h3>

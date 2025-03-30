@@ -260,8 +260,11 @@ export function AuthProvider({ children }) {
     if (!user) return false;
 
     try {
-      // Generate a unique ID for the address
-      const addressId = Date.now().toString();
+      // Use an incrementing counter for IDs, stored in localStorage
+      let nextId = parseInt(localStorage.getItem('nextAddressId') || '1');
+      const addressId = `addr_${nextId}`;
+      localStorage.setItem('nextAddressId', (nextId + 1).toString());
+      
       const newAddress = { id: addressId, ...address };
       
       // Add default flag if this is the first address
