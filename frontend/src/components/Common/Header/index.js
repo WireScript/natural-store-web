@@ -140,13 +140,13 @@ const Header = () => {
         </button>
         <ul className={styles.mobileNavLinks}>
           <li>
-            <Link href="/shop">SHOP</Link>
+            <Link href="/shop" onClick={toggleMobileMenu}>SHOP</Link>
           </li>
           <li>COLLECTIONS</li>
           <li>ABOUT US</li>
           <li>SUSTAINABILITY</li>
           <li>
-            <Link href="/cart" className={styles.mobileCartLink}>
+            <Link href="/cart" className={styles.mobileCartLink} onClick={toggleMobileMenu}>
               CART {totalItems > 0 && <span className={styles.mobileCartCount}>{totalItems}</span>}
             </Link>
           </li>
@@ -156,13 +156,16 @@ const Header = () => {
                 <span>Hi, {(user.fullName || user.full_name || 'User').split(' ')[0]}</span>
               </li>
               <li>
-                <Link href="/profile">MY PROFILE</Link>
+                <Link href="/profile" onClick={toggleMobileMenu}>MY PROFILE</Link>
               </li>
               <li>
-                <Link href="/orders">MY ORDERS</Link>
+                <Link href="/orders" onClick={toggleMobileMenu}>MY ORDERS</Link>
               </li>
               <li>
-                <button onClick={handleLogout} className={styles.logoutBtnMobile}>
+                <button onClick={() => {
+                  handleLogout();
+                  toggleMobileMenu();
+                }} className={styles.logoutBtnMobile}>
                   LOGOUT
                 </button>
               </li>
@@ -170,10 +173,10 @@ const Header = () => {
           ) : (
             <>
               <li>
-                <Link href="/login">LOGIN</Link>
+                <Link href="/login" onClick={toggleMobileMenu}>LOGIN</Link>
               </li>
               <li>
-                <Link href="/signup">SIGNUP</Link>
+                <Link href="/signup" onClick={toggleMobileMenu}>SIGNUP</Link>
               </li>
             </>
           )}

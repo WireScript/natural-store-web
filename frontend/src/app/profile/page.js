@@ -28,19 +28,18 @@ export default function ProfilePage() {
   const { user, isAuthenticated, addAddress, editAddress, deleteAddress, setDefaultAddress } = useAuth();
   const router = useRouter();
 
-  // Set mounted state
+  // Set mounted state after hydration
   useEffect(() => {
     setIsMounted(true);
+    setIsLoading(false);
   }, []);
 
-  // Redirect if not logged in
+  // Handle redirection if user is not available
   useEffect(() => {
-    if (!isAuthenticated() && !isLoading) {
+    if (isMounted && !isLoading && !user) {
       router.push('/login');
-    } else {
-      setIsLoading(false);
     }
-  }, [isAuthenticated, router, isLoading]);
+  }, [isMounted, isLoading, user, router]);
 
   // Scroll to form when it becomes visible
   useEffect(() => {
@@ -156,7 +155,7 @@ export default function ProfilePage() {
     setDefaultAddress(addressId);
   };
 
-  if (isLoading) {
+  if (isLoading || !isMounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
@@ -164,8 +163,9 @@ export default function ProfilePage() {
     );
   }
 
-  // Avoid rendering user data on the server to prevent hydration mismatch
-  if (!isMounted) {
+  // Only render the profile content if user is available
+  if (!user) {
+    // Don't call router.push here - we do it in the effect above
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-green-500"></div>
