@@ -83,8 +83,8 @@ export function CheckoutProvider({ children }) {
     if (isAuthenticated() && user) {
       // Update customer info
       updateCheckoutData('customer', {
-        firstName: user.fullName.split(' ')[0] || '',
-        lastName: user.fullName.split(' ').slice(1).join(' ') || '',
+        firstName: (user.fullName || user.full_name || 'User').split(' ')[0] || '',
+        lastName: (user.fullName || user.full_name || 'User').split(' ').slice(1).join(' ') || '',
         email: user.email || '',
         phone: user.mobile || ''
       });

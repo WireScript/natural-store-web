@@ -46,7 +46,7 @@ export function AuthProvider({ children }) {
       formData.append('username', username);
       formData.append('password', password);
       
-      const response = await fetch('http://localhost:8000/api/v1/auth/token', {
+      const response = await fetch('http://localhost:7070/api/v1/auth/token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
@@ -62,7 +62,7 @@ export function AuthProvider({ children }) {
       }
       
       // Fetch user details with the token
-      const userResponse = await fetch('http://localhost:8000/api/v1/auth/me', {
+      const userResponse = await fetch('http://localhost:7070/api/v1/auth/me', {
         headers: {
           'Authorization': `Bearer ${data.access_token}`
         }
@@ -78,6 +78,8 @@ export function AuthProvider({ children }) {
       // Store user info and token
       const userData = {
         ...userInfo,
+        fullName: userInfo.full_name,
+        phoneNumber: userInfo.phone_number,
         token: data.access_token,
         verified: true,
       };
@@ -97,7 +99,7 @@ export function AuthProvider({ children }) {
     setAuthError(null);
     
     try {
-      const response = await fetch('http://localhost:8000/api/v1/auth/signup', {
+      const response = await fetch('http://localhost:7070/api/v1/auth/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -129,7 +131,7 @@ export function AuthProvider({ children }) {
       localStorage.setItem('pendingVerification', JSON.stringify(pendingUser));
       
       // Send OTP
-      const otpResponse = await fetch('http://localhost:8000/api/v1/auth/send-otp', {
+      const otpResponse = await fetch('http://localhost:7070/api/v1/auth/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -165,7 +167,7 @@ export function AuthProvider({ children }) {
     }
     
     try {
-      const response = await fetch('http://localhost:8000/api/v1/auth/verify-otp', {
+      const response = await fetch('http://localhost:7070/api/v1/auth/verify-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -216,7 +218,7 @@ export function AuthProvider({ children }) {
     }
     
     try {
-      const response = await fetch('http://localhost:8000/api/v1/auth/send-otp', {
+      const response = await fetch('http://localhost:7070/api/v1/auth/send-otp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -28,6 +28,8 @@ export default function ProfilePage() {
 
   // Redirect if not logged in
   useEffect(() => {
+    console.log('user', user);
+    console.log('isAuthenticated', isAuthenticated());
     if (!isAuthenticated() && !isLoading) {
       router.push('/login');
     } else {

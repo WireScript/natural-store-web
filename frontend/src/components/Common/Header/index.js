@@ -98,7 +98,7 @@ const Header = () => {
               </button>
               {profileDropdownOpen && (
                 <div className={styles.dropdownMenu}>
-                  <div className={styles.userName}>{user.fullName}</div>
+                  <div className={styles.userName}>{user.fullName || user.full_name || 'User'}</div>
                   <div className={styles.userEmail}>{user.email}</div>
                   <div className={styles.dropdownDivider}></div>
                   <Link href="/profile" className={styles.dropdownItem}>My Profile</Link>
@@ -153,7 +153,7 @@ const Header = () => {
           {isAuthenticated() ? (
             <>
               <li className={styles.userInfoMobile}>
-                <span>Hi, {user.fullName.split(' ')[0]}</span>
+                <span>Hi, {(user.fullName || user.full_name || 'User').split(' ')[0]}</span>
               </li>
               <li>
                 <Link href="/profile">MY PROFILE</Link>

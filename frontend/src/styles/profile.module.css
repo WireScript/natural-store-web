@@ -1,7 +1,6 @@
 /* Profile Page Styles */
 .profileContainer {
   min-height: 100vh;
-  background: linear-gradient(135deg, #e6f7ea 0%, #d7f5db 100%);
   padding: 3rem 1rem;
 }
 
