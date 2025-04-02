@@ -10,10 +10,10 @@
 !.yarn/releases
 !.yarn/versions
 
-.venv/
-
 # testing
 /coverage
+
+__pycache__/
 
 # next.js
 /.next/

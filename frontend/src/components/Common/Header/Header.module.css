@@ -1,0 +1,372 @@
+/* Navigation */
+.navigation {
+  grid-area: nav;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 3rem;
+  z-index: 10;
+  width: 100%;
+  
+  @media (max-width: 992px) {
+    padding: 1.5rem 2rem;
+  }
+  
+  @media (max-width: 1023.98px) {
+    padding: 1rem 1.5rem;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logoCircle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #4CAF50; /* Green */
+  position: relative;
+}
+
+.logoText {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  
+  @media (max-width: 1023.98px) {
+    font-size: 0.9rem;
+  }
+}
+
+.navLinks {
+  display: flex;
+  list-style: none;
+  gap: 3rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  
+  @media (max-width: 992px) {
+    gap: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    gap: 1rem;
+  }
+  
+  @media (max-width: 1023.98px) {
+    display: none;
+  }
+}
+
+.navLinks li {
+  transform: rotate(0deg);
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.navLinks li:hover {
+  color: #4CAF50; /* Green hover color */
+}
+
+/* Header Actions Section (Cart icon and mobile menu) */
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+/* Cart icon styles */
+.cartLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.cartLink:hover {
+  transform: translateY(-2px);
+}
+
+.cartLink:active {
+  transform: translateY(0);
+}
+
+.cartIcon {
+  position: relative;
+}
+
+.cartSvg {
+  width: 24px;
+  height: 24px;
+  color: #2e3a1f;
+  transition: color 0.3s ease;
+}
+
+.cartLink:hover .cartSvg {
+  color: #4CAF50;
+}
+
+.cartCount {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: #4CAF50;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: bounceIn 0.5s ease;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Mobile cart link */
+.mobileCartLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.mobileCartCount {
+  background-color: #4CAF50;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Mobile menu button - will be shown on small screens */
+.mobileMenuBtn {
+  display: none;
+  
+  @media (max-width: 1023.98px) {
+    display: block;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: #2e3a1f;
+    cursor: pointer;
+  }
+}
+
+/* Mobile menu */
+.mobileMenu {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.97);
+  z-index: 20;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  
+  @media (max-width: 1023.98px) {
+    &.open {
+      display: flex;
+    }
+  }
+}
+
+.mobileNavLinks {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  gap: 1.5rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  align-items: center;
+}
+
+.mobileNavLinks li {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.mobileNavLinks li:hover {
+  color: #4CAF50; /* Green hover color */
+}
+
+.closeBtn {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: #2e3a1f;
+  cursor: pointer;
+}
+
+/* Auth Links Styles */
+.authLinks {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  
+  @media (max-width: 1023.98px) {
+    display: none;
+  }
+}
+
+.loginLink, .signupLink {
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.loginLink:hover, .signupLink:hover {
+  color: #4CAF50;
+}
+
+.authDivider {
+  color: #ccc;
+  margin: 0 0.25rem;
+}
+
+/* Profile Dropdown Styles */
+.profileDropdown {
+  position: relative;
+  
+  @media (max-width: 1023.98px) {
+    display: none;
+  }
+}
+
+.profileBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.profileBtn:hover {
+  transform: translateY(-2px);
+}
+
+.profileSvg {
+  width: 24px;
+  height: 24px;
+  color: #2e3a1f;
+  transition: color 0.3s ease;
+}
+
+.profileBtn:hover .profileSvg {
+  color: #4CAF50;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  width: 220px;
+  background: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  z-index: 100;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.userName {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #2e3a1f;
+}
+
+.userEmail {
+  font-size: 0.75rem;
+  color: #666;
+  margin-top: 0.25rem;
+  word-break: break-all;
+}
+
+.dropdownDivider {
+  height: 1px;
+  background-color: #eee;
+  margin: 0.75rem 0;
+}
+
+.dropdownItem {
+  display: block;
+  padding: 0.5rem 0;
+  font-size: 0.85rem;
+  color: #333;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  background: none;
+  border: none;
+  text-align: left;
+  width: 100%;
+}
+
+.dropdownItem:hover {
+  color: #4CAF50;
+}
+
+/* Mobile User Info Styles */
+.userInfoMobile {
+  font-weight: 600;
+  margin-top: 1rem;
+  color: #4CAF50;
+}
+
+.logoutBtnMobile {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+}

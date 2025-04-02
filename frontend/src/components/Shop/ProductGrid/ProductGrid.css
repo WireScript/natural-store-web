@@ -1,0 +1,127 @@
+.product-section {
+  padding: 0 1rem 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+  color: #2e3a1f; /* Dark olive green color for text to match Hero component */
+}
+
+.product-layout {
+  display: flex;
+  gap: 2rem;
+}
+
+.filter-container {
+  flex: 0 0 280px;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.products-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0;
+  color: #2e3a1f; /* Dark olive green from Hero */
+  background: linear-gradient(45deg, #2E7D32, #388E3C, #4CAF50, #2E7D32);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: gradientFlow 8s ease infinite;
+}
+
+/* Adding gradient animation for titles */
+@keyframes gradientFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+.product-grid-item {
+  height: 100%;
+  transition: transform 0.3s ease;
+}
+
+.product-grid-item:hover {
+  transform: translateY(-5px);
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .product-layout {
+    flex-direction: column;
+  }
+  
+  .filter-container {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+  
+  .top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .sort-dropdown {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.show-more-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.show-more-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  background-color: transparent;
+  color: #2E7D32;
+  border: 2px solid #2E7D32;
+  padding: 0.75rem 2rem;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background-color: #2E7D32;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+  }
+}
