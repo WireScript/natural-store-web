@@ -102,7 +102,7 @@ export default function CartPage() {
         <div className="empty-cart">
           <div className="empty-cart-icon">🛒</div>
           <h2>Your cart is empty</h2>
-          <p>It looks like you haven't added any products to your cart yet.</p>
+          <p>It looks like you haven&apos;t added any products to your cart yet.</p>
           <Link href="/shop">
             <button className="continue-shopping-btn">
               Continue Shopping

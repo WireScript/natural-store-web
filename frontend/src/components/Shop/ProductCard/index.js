@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import Link from 'next/link';
+import Image from 'next/image';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
@@ -44,16 +45,20 @@ const ProductCard = ({ product }) => {
       </div>
 
       <div className="product-image-container">
-        <img 
+        <Image
           src={validateImagePath(product.image) ? product.image : '/images/products/product-1.jpg'} 
           alt={product.title}
           className={`product-image ${isHovered ? 'hovered' : ''}`}
+          width={300}
+          height={300}
         />
         {product.secondaryImage && (
-          <img 
+          <Image 
             src={validateImagePath(product.secondaryImage) ? product.secondaryImage : '/images/products/product-2.jpg'} 
             alt={`${product.title} alternate view`}
             className={`product-image secondary ${isHovered ? 'show' : ''}`}
+            width={300}
+            height={300}
           />
         )}
       </div>

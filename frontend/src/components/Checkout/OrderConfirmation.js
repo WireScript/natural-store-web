@@ -104,7 +104,7 @@ export default function OrderConfirmation() {
       </div>
       
       <p style={{ marginTop: '2rem', color: '#666', fontSize: '0.9rem' }}>
-        We'll send you shipping confirmation once your order is on the way. 
+        We&apos;ll send you shipping confirmation once your order is on the way. 
         If you have any questions, please contact our customer support.
       </p>
       

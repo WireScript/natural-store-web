@@ -1,12 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './ProductSlider.css';
 
 const ProductSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const slides = [
+  const slides = useMemo(() => [
     {
       id: 1,
       image: '/banner/paste.jpeg'
@@ -19,7 +19,7 @@ const ProductSlider = () => {
     //   id: 3,
     //   image: '/banner/oil.jpeg'
     // }
-  ];
+  ], []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -29,7 +29,7 @@ const ProductSlider = () => {
     }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(timer);
-  }, []);
+  }, [slides]);
 
   const goToSlide = (index) => {
     setCurrentSlide(index);

@@ -145,7 +145,7 @@ export default function VerifyOTPPage() {
         <div className={styles.formHeader}>
           <h1 className={styles.formTitle}>Verify Your Mobile</h1>
           <p className={styles.formSubtitle}>
-            We've sent a code to {formatMobile(mobile)}
+            We&apos;ve sent a code to {formatMobile(mobile)}
           </p>
         </div>
         
@@ -184,7 +184,7 @@ export default function VerifyOTPPage() {
                 {timeLeft > 0 ? (
                   <>Code expires in <span className={styles.countdown}>{formatTime(timeLeft)}</span></>
                 ) : (
-                  <>Didn't receive the code?</>
+                  <>Didn&apos;t receive the code?</>
                 )}
               </span>
               <button

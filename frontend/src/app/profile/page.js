@@ -516,7 +516,7 @@ export default function ProfilePage() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                   </svg>
                 </div>
-                <p className={styles.emptyStateText}>You haven't saved any addresses yet.</p>
+                <p className={styles.emptyStateText}>You haven&apos;t saved any addresses yet.</p>
                 <button
                   className={`${styles.button} ${styles.buttonPrimary}`}
                   onClick={() => setShowAddressForm(true)}
@@ -542,7 +542,7 @@ export default function ProfilePage() {
           
           <div className={styles.cardContent}>
             <div className={styles.emptyState}>
-              <p className={styles.emptyStateText}>You haven't placed any orders yet.</p>
+              <p className={styles.emptyStateText}>You haven&apos;t placed any orders yet.</p>
               <Link
                 href="/shop"
                 className={`${styles.button} ${styles.buttonPrimary}`}

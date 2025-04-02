@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useCart } from '@/context/CartContext';
 import { products } from '@/data/products';
 import './product-detail.css';
@@ -102,9 +103,12 @@ export default function ProductDetail() {
       <div className="product-detail-content">
         <div className="product-detail-gallery">
           <div className="product-detail-main-image">
-            <img 
+            <Image 
               src={validateImagePath(productImages[activeImage]) ? productImages[activeImage] : '/images/products/product-1.jpg'} 
-              alt={product.title} 
+              alt={product.title}
+              width={500}
+              height={500}
+              priority
             />
             
             <div className="product-badges">
@@ -123,9 +127,11 @@ export default function ProductDetail() {
                   className={`thumbnail ${activeImage === index ? 'active' : ''}`}
                   onClick={() => setActiveImage(index)}
                 >
-                  <img 
+                  <Image 
                     src={validateImagePath(img) ? img : '/images/products/product-1.jpg'} 
-                    alt={`${product.title} - view ${index + 1}`} 
+                    alt={`${product.title} - view ${index + 1}`}
+                    width={100}
+                    height={100}
                   />
                 </div>
               ))}
@@ -322,7 +328,7 @@ export default function ProductDetail() {
               
               <div className="write-review">
                 <h3>Share your thoughts</h3>
-                <p>If you've used this product, share your thoughts with other customers</p>
+                <p>If you&apos;ve used this product, share your thoughts with other customers</p>
                 <button className="write-review-btn">Write a Review</button>
               </div>
             </div>
@@ -336,7 +342,7 @@ export default function ProductDetail() {
                 </div>
                 <h4 className="review-title">Great quality product</h4>
                 <p className="review-content">
-                  I've tried many similar products but this one stands out for its quality. Will definitely buy again.
+                  I&apos;ve tried many similar products but this one stands out for its quality. Will definitely buy again.
                 </p>
               </div>
               
@@ -378,9 +384,11 @@ export default function ProductDetail() {
               <div key={relatedProduct.id} className="related-product-card">
                 <Link href={`/product/${relatedProduct.id}`}>
                   <div className="related-product-image">
-                    <img 
+                    <Image 
                       src={validateImagePath(relatedProduct.image) ? relatedProduct.image : '/images/products/product-1.jpg'} 
-                      alt={relatedProduct.title} 
+                      alt={relatedProduct.title}
+                      width={200}
+                      height={200}
                     />
                   </div>
                   <div className="related-product-info">
