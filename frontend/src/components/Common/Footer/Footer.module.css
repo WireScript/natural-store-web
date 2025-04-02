@@ -105,6 +105,7 @@
 }
 
 .FooterNewsletterButton {
+  margin-top: 0.5rem;
   padding: 0.5rem 1rem;
   background-color: #95D5B2;
   color: #1B4332; /* Dark Green Text */
@@ -112,6 +113,7 @@
   font-weight: 500;
   transition: background-color 0.3s ease;
   cursor: pointer;
+  
 }
 
 .FooterNewsletterButton:hover {

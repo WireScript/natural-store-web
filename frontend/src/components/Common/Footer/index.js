@@ -98,7 +98,7 @@ const Footer = () => {
             </a>
           </div>
           <p className={styles.FooterCopyright}>
-            © {new Date().getFullYear()} NaturalStore. All rights reserved.
+            © {new Date().getFullYear()} Nature Essentials. All rights reserved.
           </p>
         </div>
       </div>
